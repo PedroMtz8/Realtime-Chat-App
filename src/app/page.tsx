@@ -1,23 +1,29 @@
+import Login from '@/components/login';
 import { getServerSession } from 'next-auth'
+import logo from '../../public/logo.png'
+
+export const generateMetadata = async () => {
+  const user = await getServerSession();
+  if(!user) return {
+    title: 'Sign in',
+    description: 'Sign in page',
+  }
+  return {
+    title: 'Chat',
+    description: '',
+  }
+}
 
 export default async function Home() {
   const user = await getServerSession();
-  console.log(user);
 
   if(!user) return (
-    <div>
-      <p>Iniciar sesión</p>
-      <form action="">
-        <input type="text" name="email" placeholder="Email"/>
-        <input type="password" name="password" placeholder="Password"/>
-        <button type="submit">Login</button>
-      </form>
-    </div>
+    <Login />
   )
 
   return (
    <main>
-    hola
+    You have logged in {user.user?.name}
    </main>
   )
 }
